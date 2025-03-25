@@ -30,7 +30,7 @@ end
 
 add_requires(get_config("commonlib"))
 
-library_name = "MyStaticLibrary"
+library_name = "SkyrimScripting.Services"
 
 target(library_name)
     set_kind("static")
