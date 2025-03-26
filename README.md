@@ -172,4 +172,15 @@ ServiceInfo GetServiceInfoByIndex(std::uint32_t index) {
     SKSE::log::warn("Failed to get service info by index: IServicesService is not available.");
     return {};
 }
+
+struct ServiceInfo {
+    const char* name;
+    const char* description;
+    void*       service_pointer;
+
+    template <typename T>
+    T* service() {
+        return static_cast<T*>(service_pointer);
+    }
+};
 ```
