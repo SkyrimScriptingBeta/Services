@@ -13,6 +13,10 @@ option("commonlib")
     set_default("skyrim-commonlib-ae")
 option_end()
 
+option("build_plugin")
+    set_default(true)
+option_end()
+
 option("build_example")
     set_default(true)
 option_end()
@@ -23,28 +27,34 @@ end
 
 includes("xmake/*.lua")
 
-if get_config("build_example") then
+if get_config("build_plugin") or get_config("build_example") then
     -- For the commonlib package dependency:
-    add_repositories("SkyrimScripting https://github.com/SkyrimScripting/Packages.git")
+    add_repositories("SkyrimScripting     https://github.com/SkyrimScripting/Packages.git")
+    add_repositories("SkyrimScriptingBeta https://github.com/SkyrimScriptingBeta/Packages.git")
+    add_repositories("MrowrLib            https://github.com/MrowrLib/Packages.git")
+
+    add_requires("collections")
+    add_requires("unordered_dense")
+    add_requires("virtual_collections")
+    add_requires("SkyrimScripting.Plugin", { configs = { commonlib = get_config("commonlib") }})
 end
 
 add_requires(get_config("commonlib"))
 
 library_name = "SkyrimScripting.Services"
 
-target(library_name)
-    set_kind("static")
-    add_files("src/*.cpp")
-    add_includedirs("include", { public = true }) -- Your library's own include path
-    add_headerfiles("include/(**.h)")
-    add_packages(get_config("commonlib"), { public = true })
+includes("SkyrimScripting.Services/xmake.lua")
 
+if get_config("build_plugin") then
+    includes("SkyrimScripting.Services.SksePlugin/xmake.lua")
+end
 
 if get_config("build_example") then
     skse_plugin({
         name = "Test plugin for " .. library_name,
         mod_files = {"Scripts"},
         build_papyrus = true,
-        src = {"plugin.cpp"}
+        src = {"example.cpp"},
+        deps = {library_name}
     })
 end
