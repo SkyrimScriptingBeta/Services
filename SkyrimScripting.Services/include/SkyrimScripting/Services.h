@@ -1,5 +1,6 @@
 #pragma once
 
-#include "Services/Service.h"  // IWYU pragma: export
+#include "Services/HelperFunctions.h"  // IWYU pragma: export
+#include "Services/Initialize.h"       // IWYU pragma: export
 
 using namespace SkyrimScripting::Services::HelperFunctions;

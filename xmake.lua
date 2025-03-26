@@ -51,10 +51,17 @@ end
 
 if get_config("build_example") then
     skse_plugin({
-        name = "Test plugin for " .. library_name,
-        mod_files = {"Scripts"},
-        build_papyrus = true,
-        src = {"example.cpp"},
-        deps = {library_name}
+        name = "Test plugin 1 for " .. library_name,
+        src = {"example_plugin1.cpp"},
+        deps = {library_name},
+        packages = {"SkyrimScripting.Plugin"}
+    })
+    add_deps(library_name)
+    
+    skse_plugin({
+        name = "Test plugin 2 for " .. library_name,
+        src = {"example_plugin2.cpp"},
+        deps = {library_name},
+        packages = {"SkyrimScripting.Plugin"}
     })
 end

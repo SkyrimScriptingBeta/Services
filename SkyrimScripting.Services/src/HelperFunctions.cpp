@@ -4,7 +4,7 @@
 
 #include "SkyrimScripting/Services/IServicesService.h"
 
-namespace SkyrimScripting::Services {
+namespace SkyrimScripting::Services::HelperFunctions {
 
     bool RegisterServicePointer(
         void* service, std::string_view name, std::string_view description
