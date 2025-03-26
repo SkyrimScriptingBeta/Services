@@ -29,12 +29,10 @@ SKSEPlugin_OnPostLoad {
 
 // Services should all be ready to consume at PostPostLoad
 SKSEPlugin_OnPostPostLoad {
-    auto* pluginTwoService = GetService<IPluginTwoService>("PluginTwoService");
-    if (pluginTwoService) {
-        SKSE::log::info("PluginTwoService: {}", pluginTwoService->get_int());
-        pluginTwoService->set_int(42);
-        SKSE::log::info("PluginTwoService: {}", pluginTwoService->get_int());
+    auto* pluginOneService = GetService<IPluginOneService>("PluginOneService");
+    if (pluginOneService) {
+        SKSE::log::info("PluginOneService: {}", pluginOneService->get_string());
     } else {
-        SKSE::log::warn("PluginTwoService not found.");
+        SKSE::log::warn("PluginOneService not found.");
     }
 }

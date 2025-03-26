@@ -86,7 +86,7 @@ namespace SkyrimScripting::Services {
 
 // PostLoad, send a message to EVERYONE passing a reference to the ServicesService.
 SKSEPlugin_OnPostLoad {
-    if (auto* servicesService = SkyrimScripting::Services::ServicesService::get()) {
+    if (auto* servicesService = SkyrimScripting::Services::ServicesService::instance()) {
         servicesService->register_service(
             servicesService, "SkyrimScripting.Services.ServicesService", "The Services Service."
         );
