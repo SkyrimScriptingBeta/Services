@@ -1,11 +1,13 @@
 #include <SkyrimScripting/Plugin.h>
 #include <collections.h>
 
+#include <string>
+
 #include "SkyrimScripting/Services/IServicesService.h"
 
 namespace SkyrimScripting::Services {
     class ServicesService : public IServicesService {
-        collections_map<const char*, ServiceInfo> services;
+        collections_map<std::string, ServiceInfo> services;  // Changed key type to std::string
 
     public:
         static IServicesService* instance() {
@@ -16,14 +18,15 @@ namespace SkyrimScripting::Services {
         bool register_service(void* service, const char* name, const char* description) override {
             SKSE::log::info("Registering service: Name='{}', Description='{}'", name, description);
             ServiceInfo info = {name, description, service, nullptr};
-            services.insert(std::make_pair(name, info));
+            services.insert(std::make_pair(std::string(name), info)
+            );  // Convert name to std::string
             SKSE::log::info("Service '{}' registered successfully.", name);
             return true;
         }
 
         bool unregister_service(const char* name) override {
             SKSE::log::info("Unregistering service: Name='{}'", name);
-            bool result = services.erase(name) > 0;
+            bool result = services.erase(std::string(name)) > 0;  // Convert name to std::string
             if (result) {
                 SKSE::log::info("Service '{}' unregistered successfully.", name);
             } else {
@@ -34,14 +37,14 @@ namespace SkyrimScripting::Services {
 
         bool service_exists(const char* name) const override {
             SKSE::log::debug("Checking existence of service: Name='{}'", name);
-            bool exists = services.contains(name);
+            bool exists = services.contains(std::string(name));  // Convert name to std::string
             SKSE::log::debug("Service '{}' exists: {}", name, exists);
             return exists;
         }
 
         void* get_service(const char* name) const override {
             SKSE::log::debug("Retrieving service: Name='{}'", name);
-            auto it = services.find(name);
+            auto it = services.find(std::string(name));  // Convert name to std::string
             if (it != services.end()) {
                 SKSE::log::info("Service '{}' retrieved successfully.", name);
                 return it->second.service_pointer;
@@ -53,7 +56,7 @@ namespace SkyrimScripting::Services {
 
         ServiceInfo get_service_info(const char* name) const override {
             SKSE::log::debug("Retrieving service info: Name='{}'", name);
-            auto it = services.find(name);
+            auto it = services.find(std::string(name));  // Convert name to std::string
             if (it != services.end()) {
                 SKSE::log::info("Service info for '{}' retrieved successfully.", name);
                 return it->second;
