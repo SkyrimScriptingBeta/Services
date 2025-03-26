@@ -7,8 +7,8 @@
 namespace SkyrimScripting::Services {
 
     struct IServicesService {
-        inline static IServicesService* get() { return instance; }
-        inline static void              set(IServicesService* service) { instance = service; }
+        static IServicesService* get();
+        static void              set(IServicesService* service);
 
         virtual bool register_service(void* service, const char* name, const char* description) = 0;
         virtual bool unregister_service(const char* name)                                       = 0;
