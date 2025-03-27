@@ -17,7 +17,7 @@ namespace SkyrimScripting::Services {
 
         bool register_service(void* service, const char* name, const char* description) override {
             SKSE::log::info("Registering service: Name='{}', Description='{}'", name, description);
-            ServiceInfo info = {name, description, service, nullptr};
+            ServiceInfo info = {name, description, service};
             services.insert(std::make_pair(std::string(name), info)
             );  // Convert name to std::string
             SKSE::log::info("Service '{}' registered successfully.", name);
